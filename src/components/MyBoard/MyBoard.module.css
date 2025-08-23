@@ -1,0 +1,20 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(8, 100px);
+    grid-template-rows: repeat(8, 100px);
+    width: 800px; 
+    height: 800px;
+    border: 1px solid #000;
+}
+
+.gameInfo {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.gameInfo h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+}
+
