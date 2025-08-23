@@ -1,4 +1,4 @@
-# Chess Game
+<!-- # Chess Game
 
 Полнофункциональная шахматная игра, реализованная на React с TypeScript.
 
@@ -123,4 +123,4 @@ VITE_APP_TITLE=Chess Game
 
 - Шахматные правила и алгоритмы
 - React и TypeScript сообщества
-- Vite за быстрый сборщик
+- Vite за быстрый сборщик -->
