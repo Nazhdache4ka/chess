@@ -31,15 +31,13 @@ export interface IChessPieceMovement {
     column: number;
 }
 
+interface PieceMovementState {
+    kingMoved: boolean;
+    rookKingsideMoved: boolean;
+    rookQueensideMoved: boolean;
+}
+
 export interface ICastleRights {
-    white: {
-        kingMoved: boolean;
-        rookKingsideMoved: boolean;
-        rookQueensideMoved: boolean;
-    },
-    black: {
-        kingMoved: boolean;
-        rookKingsideMoved: boolean;
-        rookQueensideMoved: boolean;
-    }
+    white: PieceMovementState;
+    black: PieceMovementState;
 }

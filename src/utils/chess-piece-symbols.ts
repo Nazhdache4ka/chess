@@ -1,4 +1,4 @@
-import { ChessPieceType, ChessPieceTeam } from '../interfaces';
+import { ChessPieceType, ChessPieceTeam, type IChessPieceType } from '../interfaces';
 
 const WHITE_PIECES = {
   [ChessPieceType.KING]: '♔',
@@ -18,9 +18,12 @@ const BLACK_PIECES = {
   [ChessPieceType.PAWN]: '♟',
 } as const;
 
-export const getChessPieceSymbol = (type: ChessPieceType, team: ChessPieceTeam): string => {
-  if (team === ChessPieceTeam.WHITE) {
-    return WHITE_PIECES[type];
+export const getChessPieceSymbol = (value: IChessPieceType | null): string => {
+  if (!value) {
+    return '';
   }
-  return BLACK_PIECES[type];
+  if (value.team === ChessPieceTeam.WHITE) {
+    return WHITE_PIECES[value.type];
+  }
+  return BLACK_PIECES[value.type];
 };

@@ -1,0 +1,38 @@
+import { ChessPieceType } from "../../interfaces";
+
+export const rookMovements = {
+    [ChessPieceType.ROOK]: [
+        // Горизонтальные ходы (вправо)
+        {row: 0, column: 1},
+        {row: 0, column: 2},
+        {row: 0, column: 3},
+        {row: 0, column: 4},
+        {row: 0, column: 5},
+        {row: 0, column: 6},
+        {row: 0, column: 7},
+        // Горизонтальные ходы (влево)
+        {row: 0, column: -1},
+        {row: 0, column: -2},
+        {row: 0, column: -3},
+        {row: 0, column: -4},
+        {row: 0, column: -5},
+        {row: 0, column: -6},
+        {row: 0, column: -7},
+        // Вертикальные ходы (вверх)
+        {row: 1, column: 0},
+        {row: 2, column: 0},
+        {row: 3, column: 0},
+        {row: 4, column: 0},
+        {row: 5, column: 0},
+        {row: 6, column: 0},
+        {row: 7, column: 0},
+        // Вертикальные ходы (вниз)
+        {row: -1, column: 0},
+        {row: -2, column: 0},
+        {row: -3, column: 0},
+        {row: -4, column: 0},
+        {row: -5, column: 0},
+        {row: -6, column: 0},
+        {row: -7, column: 0},
+    ],
+}

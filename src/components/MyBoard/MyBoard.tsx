@@ -1,13 +1,11 @@
 import MyCell from '../MyCell/MyCell';
 import styles from './MyBoard.module.css';
-import { boardColor } from '../../utils/board-color';
-import { type IChessBoardElement, type IChessPieceMovement, ChessPieceTeam } from '../../interfaces';
-import { useHighlightedElements, useChessGame, useChessClickHandler } from '../../hooks';
+import { type IChessBoardElement, ChessPieceTeam } from '../../interfaces';
+import { useChessGame } from '../../hooks/use-chess-game';
+import { useHighlightedElements } from '../../hooks/use-highlighted-elements';
+import { useChessClickHandler } from '../../hooks/use-chess-click-handler';
 
-
-
-
-export const MyBoard = () => {
+function MyBoard() {
 
     const {elements, selectedId, currentPlayer, isCheck, castleRights, isCheckmateState, setSelectedId, handleMove, resetGame} = useChessGame();
     const {highlightedElements, selectedElement} = useHighlightedElements(elements, selectedId, currentPlayer, castleRights, isCheck);
@@ -38,9 +36,9 @@ export const MyBoard = () => {
                     return row.map((element: IChessBoardElement, indexColumn: number) => {
                         return <MyCell  
                             element={element}
-                            style={{backgroundColor: boardColor(indexRow, indexColumn),
-                                ...(highlightedElements.some((highlightedElement: IChessPieceMovement) => highlightedElement.row === indexRow && highlightedElement.column === indexColumn) ? {backgroundColor: 'red'} : {})
-                            }} 
+                            highlightedElements={highlightedElements}
+                            indexRow={indexRow}
+                            indexColumn={indexColumn}
                             onClick={() => handleClick(element)}
                             key={indexColumn} 
                         />

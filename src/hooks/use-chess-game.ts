@@ -6,6 +6,7 @@ import { movePiece } from "../utils/game-rules/move-piece";
 import { isKingChecked } from "../utils/game-rules/is-king-checked";
 import { fillChessBoard } from "../utils/fill-chess-board";
 import { isCheckmate } from "../utils/checkmate-logic/is-checkmate";
+import { initialCastleMovements } from "../models/initial-castle-movements";
 
 export const useChessGame = () => {
     const [elements, setElements] = useState<IChessBoardElement[][]>(initialElements);
@@ -14,8 +15,8 @@ export const useChessGame = () => {
     const [isCheck, setIsCheck] = useState<boolean>(false);
     const [isCheckmateState, setIsCheckmateState] = useState<boolean>(false);
     const [castleRights, setCastleRights] = useState<ICastleRights>({
-        white: {kingMoved: false, rookKingsideMoved: false, rookQueensideMoved: false},
-        black: {kingMoved: false, rookKingsideMoved: false, rookQueensideMoved: false}
+        white: initialCastleMovements,
+        black: initialCastleMovements
     });
 
 
@@ -36,8 +37,8 @@ export const useChessGame = () => {
         setIsCheck(false);
         setIsCheckmateState(false);
         setCastleRights({
-            white: {kingMoved: false, rookKingsideMoved: false, rookQueensideMoved: false},
-            black: {kingMoved: false, rookKingsideMoved: false, rookQueensideMoved: false}
+            white: initialCastleMovements,
+            black: initialCastleMovements
         });
     }
 
