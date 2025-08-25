@@ -1,6 +1,6 @@
 import styles from './MyCell.module.css';
 import { type IChessBoardElement } from '../../interfaces';
-import { getChessPieceSymbol } from '../../utils/chessPieceSymbols';
+import { getChessPieceSymbol } from '../../utils/chess-piece-symbols';
 
 interface MyCellProps {
     style: React.CSSProperties;

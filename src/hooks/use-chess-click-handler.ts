@@ -23,7 +23,7 @@ const useChessClickHandler = (selectedId: string | null, currentPlayer: ChessPie
             if (isHighlightedCell) {
                 handleMove(selectedId, element.id);
             } else {
-                if (selectedElement?.value?.team === currentPlayer) {
+                if (element.value?.team === currentPlayer) {
                     setSelectedId(element.id);
                 } else {
                     setSelectedId(null);

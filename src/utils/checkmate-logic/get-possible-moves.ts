@@ -1,5 +1,5 @@
 import { type IChessBoardElement, type IChessPieceMovement, ChessPieceTeam, ChessPieceType } from "../../interfaces";
-import { availableMovementsForChessPieceType } from "../ChessPieceMovements";
+import { availableMovementsForChessPieceType } from "../chess-piece-movements";
 
 export const getPossibleMoves = (elements: IChessBoardElement[][], row: number, column: number, currentPlayer: ChessPieceTeam, element: IChessBoardElement) => {
     const possibleMoves: IChessPieceMovement[] = [];

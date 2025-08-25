@@ -1,5 +1,5 @@
 import { ChessPieceTeam, ChessPieceType, type IChessBoardElement } from "../../interfaces";
-import { availableMovementsForChessPieceType } from "../ChessPieceMovements";
+import { availableMovementsForChessPieceType } from "../chess-piece-movements";
 
 export const canPieceAttackKing = (elements: IChessBoardElement[][], element: IChessBoardElement, kingRow: number, kingColumn: number, rowIndex: number, columnIndex: number): boolean => {
     if (element.value?.type === ChessPieceType.PAWN) {

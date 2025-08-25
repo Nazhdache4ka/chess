@@ -1,5 +1,5 @@
 import { type IChessBoardElement, ChessPieceTeam } from "../../../interfaces";
-import { isKingChecked } from "../isKingChecked";
+import { isKingChecked } from "../is-king-checked";
 
 export const isValidMoveForChecks = (elements: IChessBoardElement[][], currentPlayer: ChessPieceTeam, fromId: string, toId: string) => {
 

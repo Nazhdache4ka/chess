@@ -1,5 +1,5 @@
 import { type IChessBoardElement, ChessPieceTeam, ChessPieceType } from "../../interfaces";
-import { canPieceAttackKing } from "./canPieceAttackKing";
+import { canPieceAttackKing } from "./can-piece-attack-king";
 
 export const isKingChecked = (elements: IChessBoardElement[][], currentPlayer: ChessPieceTeam): boolean => {
     let kingRow = -1;

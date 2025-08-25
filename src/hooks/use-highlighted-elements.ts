@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { type ICastleRights, type IChessBoardElement, type IChessPieceMovement } from "../interfaces";
-import { availableMovementsForChessPieceType } from "../utils/ChessPieceMovements";
+import { availableMovementsForChessPieceType } from "../utils/chess-piece-movements";
 import { ChessPieceType, ChessPieceTeam } from "../interfaces";
 import { canCastle } from "../utils/game-rules/castle-logic/can-castle";
 
