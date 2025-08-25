@@ -8,11 +8,19 @@
     cursor: pointer;
 }
 
+.cell.white {
+    background-color: #f0d9b5;
+}
+
+.cell.black {
+    background-color: #b58863;
+}
+
+.cell.highlighted {
+    background-color: red;
+}
+
 .piece {
     font-size: 48px;
     font-weight: bold;
-}
-
-.highlighted {
-    background-color: red;
 }
