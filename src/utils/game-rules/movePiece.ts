@@ -1,5 +1,5 @@
 import { ChessPieceTeam, ChessPieceType, type ICastleRights, type IChessBoardElement } from "../../interfaces";
-import { performCastle } from "./castle_logic/performCastle";
+import { performCastle } from "./castle-logic/perform-castle";
 
 export const movePiece = (fromId: string, toId: string, setElements: React.Dispatch<React.SetStateAction<IChessBoardElement[][]>>, setCastleRights: React.Dispatch<React.SetStateAction<ICastleRights>>, currentPlayer: ChessPieceTeam) => {
     setElements((elements: IChessBoardElement[][]) => {

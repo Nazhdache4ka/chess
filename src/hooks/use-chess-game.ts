@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { type IChessBoardElement, ChessPieceTeam, type ICastleRights } from "../interfaces";
 import { initialElements } from "../utils/initialElements";
-import { isValidMoveForChecks } from "../utils/game_rules/move_validation/isValidMoveForChecks";
-import { movePiece } from "../utils/game_rules/movePiece";
-import { isKingChecked } from "../utils/game_rules/isKingChecked";
+import { isValidMoveForChecks } from "../utils/game-rules/move_validation/isValidMoveForChecks";
+import { movePiece } from "../utils/game-rules/movePiece";
+import { isKingChecked } from "../utils/game-rules/isKingChecked";
 import { fillChessBoard } from "../utils/fillChessBoard";
-import { isCheckmate } from "../utils/checkmate_logic/isCheckmate";
+import { isCheckmate } from "../utils/checkmate-logic/is-checkmate";
 
 const useChessGame = () => {
     const [elements, setElements] = useState<IChessBoardElement[][]>(initialElements);

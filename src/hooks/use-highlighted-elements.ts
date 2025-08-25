@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { type ICastleRights, type IChessBoardElement, type IChessPieceMovement } from "../interfaces";
 import { availableMovementsForChessPieceType } from "../utils/ChessPieceMovements";
 import { ChessPieceType, ChessPieceTeam } from "../interfaces";
-import { canCastle } from "../utils/game_rules/castle_logic/canCastle";
+import { canCastle } from "../utils/game-rules/castle-logic/can-castle";
 
 export const useHighlightedElements = (elements: IChessBoardElement[][], selectedId: string | null, currentPlayer: ChessPieceTeam, castleRights: ICastleRights, isCheck: boolean) => {
     const selectedElement = useMemo(
