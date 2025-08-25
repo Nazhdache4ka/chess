@@ -2,9 +2,7 @@ import MyCell from '../MyCell/MyCell';
 import styles from './MyBoard.module.css';
 import { boardColor } from '../../utils/board-color';
 import { type IChessBoardElement, type IChessPieceMovement, ChessPieceTeam } from '../../interfaces';
-import { useHighlightedElements } from '../../hooks/use-highlighted-elements';
-import useChessGame from '../../hooks/use-chess-game';
-import useChessClickHandler from '../../hooks/use-chess-click-handler';
+import { useHighlightedElements, useChessGame, useChessClickHandler } from '../../hooks';
 
 
 

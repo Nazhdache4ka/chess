@@ -7,7 +7,7 @@ import { isKingChecked } from "../utils/game-rules/is-king-checked";
 import { fillChessBoard } from "../utils/fill-chess-board";
 import { isCheckmate } from "../utils/checkmate-logic/is-checkmate";
 
-const useChessGame = () => {
+export const useChessGame = () => {
     const [elements, setElements] = useState<IChessBoardElement[][]>(initialElements);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [currentPlayer, setCurrentPlayer] = useState<ChessPieceTeam>(ChessPieceTeam.WHITE);
@@ -66,5 +66,3 @@ const useChessGame = () => {
         resetGame,
     }
 }
-
-export default useChessGame;
