@@ -5,7 +5,7 @@ import { isValidMoveForChecks } from "../utils/game-rules/move-validation/is-val
 import { movePiece } from "../utils/game-rules/move-piece";
 import { isKingChecked } from "../utils/game-rules/is-king-checked";
 import { fillChessBoard } from "../utils/fill-chess-board";
-import { isCheckmate } from "../utils/checkmate-logic/is-checkmate";
+import { isCheckmate } from "../utils/game-rules/checkmate-logic/is-checkmate";
 import { initialCastleMovements } from "../models/initial-castle-movements";
 
 export const useChessGame = () => {
