@@ -5,12 +5,7 @@ import { canCastle } from "../utils/game-rules/castle-logic/can-castle";
 import { availableMovementsForChessPieceType } from "../utils/chess-piece-movements";
 
 
-export const useHighlightedElements = (elements: IChessBoardElement[][], selectedId: string | null, currentPlayer: ChessPieceTeam, castleRights: ICastleRights, isCheck: boolean) => {
-    const selectedElement = useMemo(
-        () => elements.flat().find((element) => element.id === selectedId) ?? null,
-        [elements, selectedId]
-    );
-
+export const useHighlightedElements = (elements: IChessBoardElement[][], selectedElement: IChessBoardElement | null, selectedElementRow: number, selectedElementColumn: number, currentPlayer: ChessPieceTeam, castleRights: ICastleRights, isCheck: boolean) => {
     const highlightedElements = useMemo(() => {
       if (!selectedElement?.value?.type) {
         return [];
@@ -18,89 +13,71 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
 
       const highlightedElements: IChessPieceMovement[] = [];
 
-      let pieceRow = -1;
-      let pieceColumn = -1;
-
-      for (let i = 0; i < elements.length; i++) {
-          for (let j = 0; j < elements[i].length; j++) {
-              if (elements[i][j].id === selectedId) {
-                  pieceRow = i;
-                  pieceColumn = j;
-                  break;
-              }
-          }
-          if (pieceRow !== -1) break;
-      }
-
-      if (pieceRow === -1) {
-          return [];
-      }
-
       if (selectedElement?.value?.type === ChessPieceType.PAWN) {
 
         // Ходы белых пешек
         if (selectedElement?.value?.team === ChessPieceTeam.WHITE) {
         
-          if (pieceRow > 0 && !elements[pieceRow - 1][pieceColumn].value) {
+          if (selectedElementRow > 0 && !elements[selectedElementRow - 1][selectedElementColumn].value) {
             highlightedElements.push({
-              row: pieceRow - 1,
-              column: pieceColumn,
+              row: selectedElementRow - 1,
+              column: selectedElementColumn,
             })
 
-            if (pieceRow === 6 && !elements[pieceRow - 2][pieceColumn].value) {
+            if (selectedElementRow === 6 && !elements[selectedElementRow - 2][selectedElementColumn].value) {
               highlightedElements.push({
-                row: pieceRow - 2,
-                column: pieceColumn,
+                row: selectedElementRow - 2,
+                column: selectedElementColumn,
               })
             }
           }
 
-          if (pieceRow > 0) {
+          if (selectedElementRow > 0) {
           
-            if (pieceColumn > 0 && elements[pieceRow - 1][pieceColumn - 1].value && elements[pieceRow - 1][pieceColumn - 1].value?.team === ChessPieceTeam.BLACK) {
+            if (selectedElementColumn > 0 && elements[selectedElementRow - 1][selectedElementColumn - 1].value && elements[selectedElementRow - 1][selectedElementColumn - 1].value?.team === ChessPieceTeam.BLACK) {
               highlightedElements.push({
-                row: pieceRow - 1,
-                column: pieceColumn - 1,
+                row: selectedElementRow - 1,
+                column: selectedElementColumn - 1,
               })
             }
 
-            if (pieceColumn < 7 && elements[pieceRow - 1][pieceColumn + 1].value && elements[pieceRow - 1][pieceColumn + 1].value?.team === ChessPieceTeam.BLACK) {
+            if (selectedElementColumn < 7 && elements[selectedElementRow - 1][selectedElementColumn + 1].value && elements[selectedElementRow - 1][selectedElementColumn + 1].value?.team === ChessPieceTeam.BLACK) {
               highlightedElements.push({
-                row: pieceRow - 1,
-              column: pieceColumn + 1,
+                row: selectedElementRow - 1,
+              column: selectedElementColumn + 1,
               })
             }
           }
         } else {
 
           // Ходы черных пешек
-          if (pieceRow < 7 && !elements[pieceRow + 1][pieceColumn].value) {
+          if (selectedElementRow < 7 && !elements[selectedElementRow + 1][selectedElementColumn].value) {
             highlightedElements.push({
-              row: pieceRow + 1,
-              column: pieceColumn,
+              row: selectedElementRow + 1,
+              column: selectedElementColumn,
             })
   
-            if (pieceRow === 1 && !elements[pieceRow + 2][pieceColumn].value) {
+            if (selectedElementRow === 1 && !elements[selectedElementRow + 2][selectedElementColumn].value) {
               highlightedElements.push({
-                row: pieceRow + 2,
-                column: pieceColumn,
+                row: selectedElementRow + 2,
+                column: selectedElementColumn,
               })
             }
           }
 
-          if (pieceRow < 7) {
+          if (selectedElementRow < 7) {
 
-            if (pieceColumn > 0 && elements[pieceRow + 1][pieceColumn - 1].value && elements[pieceRow + 1][pieceColumn - 1].value?.team === ChessPieceTeam.WHITE) {
+            if (selectedElementColumn > 0 && elements[selectedElementRow + 1][selectedElementColumn - 1].value && elements[selectedElementRow + 1][selectedElementColumn - 1].value?.team === ChessPieceTeam.WHITE) {
               highlightedElements.push({
-                row: pieceRow + 1,
-                column: pieceColumn - 1,
+                row: selectedElementRow + 1,
+                column: selectedElementColumn - 1,
               })
             }
 
-            if (pieceColumn < 7 && elements[pieceRow + 1][pieceColumn + 1].value && elements[pieceRow + 1][pieceColumn + 1].value?.team === ChessPieceTeam.WHITE) {
+            if (selectedElementColumn < 7 && elements[selectedElementRow + 1][selectedElementColumn + 1].value && elements[selectedElementRow + 1][selectedElementColumn + 1].value?.team === ChessPieceTeam.WHITE) {
               highlightedElements.push({
-                row: pieceRow + 1,
-                column: pieceColumn + 1,
+                row: selectedElementRow + 1,
+                column: selectedElementColumn + 1,
               })
             }
           }
@@ -112,8 +89,8 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
 
         if (availableMovements) {
           availableMovements.forEach((movement) => {
-            const newRow = pieceRow + movement.row;
-            const newColumn = pieceColumn + movement.column;
+            const newRow = selectedElementRow + movement.row;
+            const newColumn = selectedElementColumn + movement.column;
 
             if (newRow >= 0 && newRow < 8 && newColumn >= 0 && newColumn < 8) {
 
@@ -125,8 +102,8 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
                   const rowStep = movement.row === 0 ? 0 : movement.row > 0 ? 1 : -1;
                   const columnStep = movement.column === 0 ? 0 : movement.column > 0 ? 1 : -1;
 
-                  let checkRow = pieceRow + rowStep;
-                  let checkColumn = pieceColumn + columnStep;
+                  let checkRow = selectedElementRow + rowStep;
+                  let checkColumn = selectedElementColumn + columnStep;
 
                   while (checkRow !== newRow || checkColumn !== newColumn) {
                     if (elements[checkRow][checkColumn].value) {
@@ -152,7 +129,7 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
 
                   if (currentPlayer === ChessPieceTeam.WHITE) {
 
-                    const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedId, isCheck);
+                    const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
 
                     if (canCastleResult) {
 
@@ -182,7 +159,7 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
                   } else {
                     if (currentPlayer === ChessPieceTeam.BLACK) {
 
-                      const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedId, isCheck);
+                      const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
 
                       if (canCastleResult) {
 
@@ -226,7 +203,7 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
       }
 
       return highlightedElements;
-    }, [elements, selectedElement, selectedId, currentPlayer]);
+    }, [elements, selectedElement, selectedElementRow, selectedElementColumn, currentPlayer]);
 
     
       

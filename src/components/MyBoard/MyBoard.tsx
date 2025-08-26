@@ -4,11 +4,13 @@ import { type IChessBoardElement, ChessPieceTeam } from '../../interfaces';
 import { useChessGame } from '../../hooks/use-chess-game';
 import { useHighlightedElements } from '../../hooks/use-highlighted-elements';
 import { useChessClickHandler } from '../../hooks/use-chess-click-handler';
+import { useSelectedElementCoordinates } from '../../hooks/use-selected-element-coordinates';
 
 function MyBoard() {
 
     const {elements, selectedId, currentPlayer, isCheck, castleRights, isCheckmateState, setSelectedId, handleMove, resetGame} = useChessGame();
-    const {highlightedElements, selectedElement} = useHighlightedElements(elements, selectedId, currentPlayer, castleRights, isCheck);
+    const {selectedElement, selectedElementRow, selectedElementColumn} = useSelectedElementCoordinates(elements, selectedId);
+    const {highlightedElements} = useHighlightedElements(elements, selectedElement, selectedElementRow, selectedElementColumn, currentPlayer, castleRights, isCheck);
     const {handleClick} = useChessClickHandler(selectedId, currentPlayer, selectedElement, highlightedElements, isCheckmateState, setSelectedId, handleMove);
     
     return (
