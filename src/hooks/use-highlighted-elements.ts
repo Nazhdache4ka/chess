@@ -257,7 +257,7 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
       // }
 
       return highlightedElements;
-    }, [elements, selectedElement, selectedElementRow, selectedElementColumn, currentPlayer]);
+    }, [elements, selectedElement, selectedElementRow, selectedElementColumn, currentPlayer, castleRights, isCheck]);
 
     
       
