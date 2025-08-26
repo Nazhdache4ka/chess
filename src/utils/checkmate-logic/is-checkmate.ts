@@ -1,6 +1,6 @@
 import { type IChessBoardElement, ChessPieceTeam } from "../../interfaces";
 import { isKingChecked } from "../game-rules/is-king-checked";
-import { getPossibleMoves } from "./get-possible-moves";
+import { getPossibleMoves } from "../game-rules/get-possible-moves";
 
 export const isCheckmate = (elements: IChessBoardElement[][], currentPlayer: ChessPieceTeam, isCheck: boolean) => {
     if (!isCheck) {

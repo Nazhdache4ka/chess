@@ -1,9 +1,7 @@
 import { useMemo } from "react";
-import { type ICastleRights, type IChessBoardElement, type IChessPieceMovement } from "../interfaces";
-import { ChessPieceType, ChessPieceTeam } from "../interfaces";
+import { ChessPieceTeam, ChessPieceType, type ICastleRights, type IChessBoardElement, type IChessPieceMovement } from "../interfaces";
+import { getPossibleMoves } from "../utils/game-rules/get-possible-moves";
 import { canCastle } from "../utils/game-rules/castle-logic/can-castle";
-import { availableMovementsForChessPieceType } from "../utils/chess-piece-movements";
-
 
 export const useHighlightedElements = (elements: IChessBoardElement[][], selectedElement: IChessBoardElement | null, selectedElementRow: number, selectedElementColumn: number, currentPlayer: ChessPieceTeam, castleRights: ICastleRights, isCheck: boolean) => {
     const highlightedElements = useMemo(() => {
@@ -11,196 +9,252 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
         return [];
       };
 
-      const highlightedElements: IChessPieceMovement[] = [];
+      const highlightedElements: IChessPieceMovement[] = getPossibleMoves(elements, selectedElementRow, selectedElementColumn, currentPlayer, selectedElement);
 
-      if (selectedElement?.value?.type === ChessPieceType.PAWN) {
+      if (highlightedElements.length !== 0) {
 
-        // Ходы белых пешек
-        if (selectedElement?.value?.team === ChessPieceTeam.WHITE) {
-        
-          if (selectedElementRow > 0 && !elements[selectedElementRow - 1][selectedElementColumn].value) {
-            highlightedElements.push({
-              row: selectedElementRow - 1,
-              column: selectedElementColumn,
-            })
+        if (selectedElement?.value.type === ChessPieceType.KING) {
 
-            if (selectedElementRow === 6 && !elements[selectedElementRow - 2][selectedElementColumn].value) {
-              highlightedElements.push({
-                row: selectedElementRow - 2,
-                column: selectedElementColumn,
-              })
-            }
-          }
+          if (currentPlayer === ChessPieceTeam.WHITE) {
+            const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
 
-          if (selectedElementRow > 0) {
-          
-            if (selectedElementColumn > 0 && elements[selectedElementRow - 1][selectedElementColumn - 1].value && elements[selectedElementRow - 1][selectedElementColumn - 1].value?.team === ChessPieceTeam.BLACK) {
-              highlightedElements.push({
-                row: selectedElementRow - 1,
-                column: selectedElementColumn - 1,
-              })
+            if (!canCastleResult || !canCastleResult.canCastle) {
+              return highlightedElements;
             }
 
-            if (selectedElementColumn < 7 && elements[selectedElementRow - 1][selectedElementColumn + 1].value && elements[selectedElementRow - 1][selectedElementColumn + 1].value?.team === ChessPieceTeam.BLACK) {
+            if (canCastleResult.canCastleShortSide) {
+              if (canCastleResult.isPathClearShortSide) {
               highlightedElements.push({
-                row: selectedElementRow - 1,
-              column: selectedElementColumn + 1,
-              })
-            }
-          }
-        } else {
-
-          // Ходы черных пешек
-          if (selectedElementRow < 7 && !elements[selectedElementRow + 1][selectedElementColumn].value) {
-            highlightedElements.push({
-              row: selectedElementRow + 1,
-              column: selectedElementColumn,
-            })
-  
-            if (selectedElementRow === 1 && !elements[selectedElementRow + 2][selectedElementColumn].value) {
-              highlightedElements.push({
-                row: selectedElementRow + 2,
-                column: selectedElementColumn,
-              })
-            }
-          }
-
-          if (selectedElementRow < 7) {
-
-            if (selectedElementColumn > 0 && elements[selectedElementRow + 1][selectedElementColumn - 1].value && elements[selectedElementRow + 1][selectedElementColumn - 1].value?.team === ChessPieceTeam.WHITE) {
-              highlightedElements.push({
-                row: selectedElementRow + 1,
-                column: selectedElementColumn - 1,
-              })
-            }
-
-            if (selectedElementColumn < 7 && elements[selectedElementRow + 1][selectedElementColumn + 1].value && elements[selectedElementRow + 1][selectedElementColumn + 1].value?.team === ChessPieceTeam.WHITE) {
-              highlightedElements.push({
-                row: selectedElementRow + 1,
-                column: selectedElementColumn + 1,
-              })
-            }
-          }
-        }
-      } else {
-
-        // Ходы остальных фигур
-        const availableMovements = availableMovementsForChessPieceType[selectedElement.value.type]
-
-        if (availableMovements) {
-          availableMovements.forEach((movement) => {
-            const newRow = selectedElementRow + movement.row;
-            const newColumn = selectedElementColumn + movement.column;
-
-            if (newRow >= 0 && newRow < 8 && newColumn >= 0 && newColumn < 8) {
-
-              if (!elements[newRow][newColumn].value || elements[newRow][newColumn].value?.team !== currentPlayer) {
-                
-                if (selectedElement.value?.type === ChessPieceType.BISHOP || selectedElement.value?.type === ChessPieceType.QUEEN || selectedElement.value?.type === ChessPieceType.ROOK) {
-                  let isPathClear = true;
-
-                  const rowStep = movement.row === 0 ? 0 : movement.row > 0 ? 1 : -1;
-                  const columnStep = movement.column === 0 ? 0 : movement.column > 0 ? 1 : -1;
-
-                  let checkRow = selectedElementRow + rowStep;
-                  let checkColumn = selectedElementColumn + columnStep;
-
-                  while (checkRow !== newRow || checkColumn !== newColumn) {
-                    if (elements[checkRow][checkColumn].value) {
-                      isPathClear = false;
-                      break;
-                    }
-                    checkRow += rowStep;
-                    checkColumn += columnStep;
-                  }
-
-                  if (isPathClear) {
-                    highlightedElements.push({
-                      row: newRow,
-                      column: newColumn,
-                    })
-                  }
-                } else if (selectedElement.value?.type === ChessPieceType.KING) {
-
-                  highlightedElements.push({
-                    row: newRow,
-                    column: newColumn,
-                  })
-
-                  if (currentPlayer === ChessPieceTeam.WHITE) {
-
-                    const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
-
-                    if (canCastleResult) {
-
-                      if (canCastleResult.canCastle) {
-
-                        if (canCastleResult.canCastleShortSide) {
-                          
-                          if (canCastleResult.isPathClearShortSide) {
-                            highlightedElements.push({
-                              row: 7,
-                              column: 6,
-                            })
-                          }
-                        }
-  
-                        if (canCastleResult.canCastleLongSide) {
-
-                          if (canCastleResult.isPathClearLongSide) {
-                            highlightedElements.push({
-                              row: 7,
-                              column: 2,
-                            })
-                          }
-                        }
-                      }
-                    }
-                  } else {
-                    if (currentPlayer === ChessPieceTeam.BLACK) {
-
-                      const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
-
-                      if (canCastleResult) {
-
-                        if (canCastleResult.canCastle) {
-
-                          if (canCastleResult.canCastleShortSide) {
-
-                            if (canCastleResult.isPathClearShortSide) {
-                              highlightedElements.push({
-                                row: 0,
-                                column: 6,
-                              })
-                            }
-                          }
-
-                          if (canCastleResult.canCastleLongSide) {
-
-                            if (canCastleResult.isPathClearLongSide) {
-                              highlightedElements.push({
-                                row: 0,
-                                column: 2,
-                              })
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  
-                } else {
-                  highlightedElements.push({
-                    row: newRow,
-                    column: newColumn,
-                  })
-                }
-                
+                row: 7,
+                  column: 6,
+                })
               }
             }
-          })
+          
+            if (canCastleResult.canCastleLongSide) {
+              if (canCastleResult.isPathClearLongSide) {
+              highlightedElements.push({
+                row: 7,
+                  column: 2,
+                })
+              }
+            }
+          } else {
+            const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
+
+            if (!canCastleResult || !canCastleResult.canCastle) {
+              return highlightedElements;
+            }
+
+            if (canCastleResult.canCastleShortSide) {
+              if (canCastleResult.isPathClearShortSide) {
+                highlightedElements.push({
+                  row: 0,
+                  column: 6,
+                })
+              }
+            }
+
+            if (canCastleResult.canCastleLongSide) {
+              if (canCastleResult.isPathClearLongSide) {
+                highlightedElements.push({
+                  row: 0,
+                  column: 2,
+                })
+              }
+            }
+          }
         }
       }
+
+      // if (selectedElement?.value?.type === ChessPieceType.PAWN) {
+
+      //   // Ходы белых пешек
+      //   if (selectedElement?.value?.team === ChessPieceTeam.WHITE) {
+        
+      //     if (selectedElementRow > 0 && !elements[selectedElementRow - 1][selectedElementColumn].value) {
+      //       highlightedElements.push({
+      //         row: selectedElementRow - 1,
+      //         column: selectedElementColumn,
+      //       })
+
+      //       if (selectedElementRow === 6 && !elements[selectedElementRow - 2][selectedElementColumn].value) {
+      //         highlightedElements.push({
+      //           row: selectedElementRow - 2,
+      //           column: selectedElementColumn,
+      //         })
+      //       }
+      //     }
+
+      //     if (selectedElementRow > 0) {
+          
+      //       if (selectedElementColumn > 0 && elements[selectedElementRow - 1][selectedElementColumn - 1].value && elements[selectedElementRow - 1][selectedElementColumn - 1].value?.team === ChessPieceTeam.BLACK) {
+      //         highlightedElements.push({
+      //           row: selectedElementRow - 1,
+      //           column: selectedElementColumn - 1,
+      //         })
+      //       }
+
+      //       if (selectedElementColumn < 7 && elements[selectedElementRow - 1][selectedElementColumn + 1].value && elements[selectedElementRow - 1][selectedElementColumn + 1].value?.team === ChessPieceTeam.BLACK) {
+      //         highlightedElements.push({
+      //           row: selectedElementRow - 1,
+      //         column: selectedElementColumn + 1,
+      //         })
+      //       }
+      //     }
+      //   } else {
+
+      //     // Ходы черных пешек
+      //     if (selectedElementRow < 7 && !elements[selectedElementRow + 1][selectedElementColumn].value) {
+      //       highlightedElements.push({
+      //         row: selectedElementRow + 1,
+      //         column: selectedElementColumn,
+      //       })
+  
+      //       if (selectedElementRow === 1 && !elements[selectedElementRow + 2][selectedElementColumn].value) {
+      //         highlightedElements.push({
+      //           row: selectedElementRow + 2,
+      //           column: selectedElementColumn,
+      //         })
+      //       }
+      //     }
+
+      //     if (selectedElementRow < 7) {
+
+      //       if (selectedElementColumn > 0 && elements[selectedElementRow + 1][selectedElementColumn - 1].value && elements[selectedElementRow + 1][selectedElementColumn - 1].value?.team === ChessPieceTeam.WHITE) {
+      //         highlightedElements.push({
+      //           row: selectedElementRow + 1,
+      //           column: selectedElementColumn - 1,
+      //         })
+      //       }
+
+      //       if (selectedElementColumn < 7 && elements[selectedElementRow + 1][selectedElementColumn + 1].value && elements[selectedElementRow + 1][selectedElementColumn + 1].value?.team === ChessPieceTeam.WHITE) {
+      //         highlightedElements.push({
+      //           row: selectedElementRow + 1,
+      //           column: selectedElementColumn + 1,
+      //         })
+      //       }
+      //     }
+      //   }
+      // } else {
+
+      //   // Ходы остальных фигур
+      //   const availableMovements = availableMovementsForChessPieceType[selectedElement.value.type]
+
+      //   if (availableMovements) {
+      //     availableMovements.forEach((movement) => {
+      //       const newRow = selectedElementRow + movement.row;
+      //       const newColumn = selectedElementColumn + movement.column;
+
+      //       if (newRow >= 0 && newRow < 8 && newColumn >= 0 && newColumn < 8) {
+
+      //         if (!elements[newRow][newColumn].value || elements[newRow][newColumn].value?.team !== currentPlayer) {
+                
+      //           if (selectedElement.value?.type === ChessPieceType.BISHOP || selectedElement.value?.type === ChessPieceType.QUEEN || selectedElement.value?.type === ChessPieceType.ROOK) {
+      //             let isPathClear = true;
+
+      //             const rowStep = movement.row === 0 ? 0 : movement.row > 0 ? 1 : -1;
+      //             const columnStep = movement.column === 0 ? 0 : movement.column > 0 ? 1 : -1;
+
+      //             let checkRow = selectedElementRow + rowStep;
+      //             let checkColumn = selectedElementColumn + columnStep;
+
+      //             while (checkRow !== newRow || checkColumn !== newColumn) {
+      //               if (elements[checkRow][checkColumn].value) {
+      //                 isPathClear = false;
+      //                 break;
+      //               }
+      //               checkRow += rowStep;
+      //               checkColumn += columnStep;
+      //             }
+
+      //             if (isPathClear) {
+      //               highlightedElements.push({
+      //                 row: newRow,
+      //                 column: newColumn,
+      //               })
+      //             }
+      //           } else if (selectedElement.value?.type === ChessPieceType.KING) {
+
+      //             highlightedElements.push({
+      //               row: newRow,
+      //               column: newColumn,
+      //             })
+
+      //             if (currentPlayer === ChessPieceTeam.WHITE) {
+
+      //               const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
+
+      //               if (canCastleResult) {
+
+      //                 if (canCastleResult.canCastle) {
+
+      //                   if (canCastleResult.canCastleShortSide) {
+                          
+      //                     if (canCastleResult.isPathClearShortSide) {
+      //                       highlightedElements.push({
+      //                         row: 7,
+      //                         column: 6,
+      //                       })
+      //                     }
+      //                   }
+  
+      //                   if (canCastleResult.canCastleLongSide) {
+
+      //                     if (canCastleResult.isPathClearLongSide) {
+      //                       highlightedElements.push({
+      //                         row: 7,
+      //                         column: 2,
+      //                       })
+      //                     }
+      //                   }
+      //                 }
+      //               }
+      //             } else {
+      //               if (currentPlayer === ChessPieceTeam.BLACK) {
+
+      //                 const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
+
+      //                 if (canCastleResult) {
+
+      //                   if (canCastleResult.canCastle) {
+
+      //                     if (canCastleResult.canCastleShortSide) {
+
+      //                       if (canCastleResult.isPathClearShortSide) {
+      //                         highlightedElements.push({
+      //                           row: 0,
+      //                           column: 6,
+      //                         })
+      //                       }
+      //                     }
+
+      //                     if (canCastleResult.canCastleLongSide) {
+
+      //                       if (canCastleResult.isPathClearLongSide) {
+      //                         highlightedElements.push({
+      //                           row: 0,
+      //                           column: 2,
+      //                         })
+      //                       }
+      //                     }
+      //                   }
+      //                 }
+      //               }
+      //             }
+                  
+      //           } else {
+      //             highlightedElements.push({
+      //               row: newRow,
+      //               column: newColumn,
+      //             })
+      //           }
+                
+      //         }
+      //       }
+      //     })
+      //   }
+      // }
 
       return highlightedElements;
     }, [elements, selectedElement, selectedElementRow, selectedElementColumn, currentPlayer]);
@@ -277,5 +331,5 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
     //       .flat();
     //   }, [availableMovements, elements, selectedId]);
 
-    return {highlightedElements, selectedElement};
+    return {highlightedElements};
 }
