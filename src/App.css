@@ -5,7 +5,7 @@
 }
 
 .app {
-  background-color: #fcfcfc;
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@
 .navbar {
   width: 100%;
   padding: 10px;
-  background: linear-gradient(to top, #fcfcfc, #d5d5d5);
+  background: linear-gradient(to top, white, #d5d5d5);
   display: flex;
   flex-direction: row;
   align-items: center;

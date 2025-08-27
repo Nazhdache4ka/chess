@@ -7,6 +7,7 @@ import { isKingChecked } from "../utils/game-rules/is-king-checked";
 import { fillChessBoard } from "../utils/fill-chess-board";
 import { isCheckmate } from "../utils/checkmate-logic/is-checkmate";
 import { initialCastleMovements } from "../models/initial-castle-movements";
+import { useGameTime } from "./use-game-time";
 
 export const useChessGame = () => {
     const [elements, setElements] = useState<IChessBoardElement[][]>(initialElements);
@@ -18,6 +19,7 @@ export const useChessGame = () => {
         white: initialCastleMovements,
         black: initialCastleMovements
     });
+    const {whiteTime, blackTime, resetTime} = useGameTime(currentPlayer, isCheckmateState);
 
 
     const handleMove = (fromId: string, toId: string) => {
@@ -36,6 +38,7 @@ export const useChessGame = () => {
         setCurrentPlayer(ChessPieceTeam.WHITE);
         setIsCheck(false);
         setIsCheckmateState(false);
+        resetTime();
         setCastleRights({
             white: initialCastleMovements,
             black: initialCastleMovements
@@ -62,6 +65,8 @@ export const useChessGame = () => {
         isCheck,
         castleRights,
         isCheckmateState,
+        whiteTime,
+        blackTime,
         setSelectedId,
         handleMove,
         resetGame,
