@@ -1,0 +1,14 @@
+.logo {
+    color: rgb(48, 48, 48);
+    font-style: italic;
+    transition: all 0.3s ease;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.logo:hover {
+    transform: scale(1.1);  
+    color: rgb(83, 83, 221);
+    background-color: #e0e0e0;
+}
