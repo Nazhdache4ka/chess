@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { ChessPieceTeam } from "../interfaces";
 
-export const useGameTime = (player: ChessPieceTeam, isCheckmateState: boolean) => {
-    const [whiteTime, setWhiteTime] = useState<number>(60);
-    const [blackTime, setBlackTime] = useState<number>(60);
+export const useGameTime = (currentPlayer: ChessPieceTeam, isCheckmateState: boolean) => {
+    const [whiteTime, setWhiteTime] = useState<number>(300);
+    const [blackTime, setBlackTime] = useState<number>(300);
     
     const resetTime = () => {
-        setWhiteTime(60);
-        setBlackTime(60);
+        setWhiteTime(300);
+        setBlackTime(300);
     }
     
     useEffect(() => {
@@ -16,7 +16,7 @@ export const useGameTime = (player: ChessPieceTeam, isCheckmateState: boolean) =
         }
 
         const interval = setInterval(() => {
-            if (player === ChessPieceTeam.WHITE) {
+            if (currentPlayer === ChessPieceTeam.WHITE) {
                 setWhiteTime((prev) => {
                     if (prev > 0) {
                         return prev - 1;
@@ -34,7 +34,7 @@ export const useGameTime = (player: ChessPieceTeam, isCheckmateState: boolean) =
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [player, isCheckmateState]);
+    }, [currentPlayer, isCheckmateState]);
 
     return {whiteTime, blackTime, resetTime};
 }
