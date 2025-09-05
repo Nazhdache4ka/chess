@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { ChessPieceTeam } from "../interfaces";
 
 export const useGameTime = (currentPlayer: ChessPieceTeam, isCheckmateState: boolean) => {
-    const [whiteTime, setWhiteTime] = useState<number>(300);
-    const [blackTime, setBlackTime] = useState<number>(300);
+    const [whiteTime, setWhiteTime] = useState<number>(60);
+    const [blackTime, setBlackTime] = useState<number>(60);
     
     const resetTime = () => {
-        setWhiteTime(300);
-        setBlackTime(300);
+        setWhiteTime(60);
+        setBlackTime(60);
     }
     
     useEffect(() => {

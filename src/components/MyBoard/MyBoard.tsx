@@ -12,14 +12,16 @@ interface MyBoardProps {
     isCheck: boolean;
     castleRights: ICastleRights;
     isCheckmateState: boolean;
+    whiteTime: number;
+    blackTime: number;
     setSelectedId: (id: string | null) => void;
     handleMove: (fromId: string, toId: string) => void;
 }
 
-function MyBoard({elements, selectedId, currentPlayer, isCheck, castleRights, isCheckmateState, setSelectedId, handleMove}: MyBoardProps) {
+function MyBoard({elements, selectedId, currentPlayer, isCheck, castleRights, isCheckmateState, whiteTime, blackTime, setSelectedId, handleMove}: MyBoardProps) {
     const {selectedElement, selectedElementRow, selectedElementColumn} = useSelectedElementCoordinates(elements, selectedId);
     const {highlightedElements} = useHighlightedElements(elements, selectedElement, selectedElementRow, selectedElementColumn, currentPlayer, castleRights, isCheck);
-    const {handleClick} = useChessClickHandler(selectedId, currentPlayer, selectedElement, highlightedElements, isCheckmateState, setSelectedId, handleMove);
+    const {handleClick} = useChessClickHandler(selectedId, currentPlayer, highlightedElements, isCheckmateState, whiteTime, blackTime, setSelectedId, handleMove);
     
     
     return (

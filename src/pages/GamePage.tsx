@@ -1,7 +1,6 @@
 import Button from "../components/Button/Button";
 import MyBoard from "../components/MyBoard/MyBoard";
-import Timer from "../components/Timer/Timer";
-import GameInfo from "../components/GameInfo";
+import GameInfo from "../components/GameInfo/GameInfo";
 import { useChessGame } from "../hooks/use-chess-game";
 
 function GamePage() {
@@ -21,13 +20,18 @@ function GamePage() {
                 isCheck={isCheck}
                 castleRights={castleRights}
                 isCheckmateState={isCheckmateState}
+                whiteTime={whiteTime} 
+                blackTime={blackTime}
                 setSelectedId={setSelectedId}
                 handleMove={handleMove}
             />
-            <div>
-                <GameInfo currentPlayer={currentPlayer} isCheckmateState={isCheckmateState} isCheck={isCheck} whiteTime={whiteTime} blackTime={blackTime}/>
-                <Timer whiteTime={whiteTime} blackTime={blackTime}/>
-            </div>
+            <GameInfo 
+                currentPlayer={currentPlayer} 
+                isCheckmateState={isCheckmateState} 
+                isCheck={isCheck} 
+                whiteTime={whiteTime} 
+                blackTime={blackTime}
+            />
         </div>
     )
 }
