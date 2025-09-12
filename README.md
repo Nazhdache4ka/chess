@@ -1,4 +1,3 @@
-<!-- 
 ###
 практически полностью рабочие шахматы на реакт + тс)))
 единственное, чего не хватает, - взятия на проходе
@@ -8,5 +7,5 @@
 Almost fully functional chess on React + TS)))
 The only thing missing is en passant capture
 But it seems like almost no one knows about this rule xd)))
--->
+
 
