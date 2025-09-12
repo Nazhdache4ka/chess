@@ -105,3 +105,51 @@ var divide = function(dividend, divisor) {
 
     return Number(result);
 };
+
+var sumZero = function(n) {
+    let result = [];
+    let num = n;
+    for (let i = 0; i < n; i += 2) {
+        if (i === (n-1)) {
+            result.push(0);
+            break;
+        }
+        result.push(num);
+        result.push(-num);
+        num--;
+    }
+
+    return result;
+};
+
+var findMedianSortedArrays = function(nums1, nums2) {
+    const arr = [...nums1, ...nums2].sort((a, b) => a-b);
+    
+    if (arr.length % 2 === 0) {
+        return (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2
+    }
+
+    return arr[Math.floor(arr.length / 2)];
+};
+
+console.log(1);
+console.log(useEffect(() => {
+    console.log(2);
+}, []));
+console.log(setTimeout(() => {
+    console.log(3);
+}, 0));
+console.log(Promise.resolve().then(() => {
+    console.log(4);
+}));
+console.log(5);
+
+
+async function test() {
+    console.log(1);
+    await Promise.resolve();
+    console.log(2);
+}
+
+test();
+console.log(3);
