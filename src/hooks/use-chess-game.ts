@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePawnPromotion } from "./use-pawn-promotion";
 import { useGameTime } from "./use-game-time";
-import { type IChessBoardElement, ChessPieceTeam, type ICastleRights, type IPawnPromotion } from "../interfaces";
+import { type IChessBoardElement, ChessPieceTeam, type ICastleRights } from "../interfaces";
 import { initialElements } from "../utils/initial-elements";
 import { isValidMoveForChecks } from "../utils/game-rules/move-validation/is-valid-move-for-checks";
 import { movePiece } from "../utils/game-rules/move-piece";
@@ -22,9 +22,8 @@ export const useChessGame = () => {
         white: initialCastleMovements,
         black: initialCastleMovements
     });
-    const [targetPawn, setTargetPawn] = useState<IPawnPromotion | null>(null);
     const {whiteTime, blackTime, resetTime} = useGameTime(currentPlayer, isCheckmateState);
-    const {modalVisible, onPieceSelect} = usePawnPromotion(elements, currentPlayer, targetPawn, setElements, setTargetPawn, setSelectedId, setCurrentPlayer);
+    const {modalVisible, setTargetPawn, onPieceSelect} = usePawnPromotion(elements, currentPlayer, setElements, setSelectedId, setCurrentPlayer);
 
     const handleMove = (fromId: string, toId: string) => {
         if (isValidMoveForChecks(elements, currentPlayer, fromId, toId)) {

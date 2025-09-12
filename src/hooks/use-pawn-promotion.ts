@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import type { ChessPieceTeam, ChessPieceType, IChessBoardElement, IPawnPromotion } from "../interfaces";
 import { promotePawn } from "../utils/game-rules/pawn-promotion/promote-pawn";
 
-export const usePawnPromotion = (elements: IChessBoardElement[][], currentPlayer: ChessPieceTeam, targetPawn: IPawnPromotion | null, setElements: (elements: IChessBoardElement[][]) => void, setTargetPawn: (targetPawn: IPawnPromotion | null) => void, setSelectedId: (selectedId: string | null) => void, setCurrentPlayer: (currentPlayer: ChessPieceTeam) => void) => {
+export const usePawnPromotion = (elements: IChessBoardElement[][], currentPlayer: ChessPieceTeam, setElements: (elements: IChessBoardElement[][]) => void, setSelectedId: (selectedId: string | null) => void, setCurrentPlayer: (currentPlayer: ChessPieceTeam) => void) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [targetPawn, setTargetPawn] = useState<IPawnPromotion | null>(null);
 
     const onPieceSelect = (piece: ChessPieceType) => {
         if (targetPawn && piece) {
@@ -21,6 +22,7 @@ export const usePawnPromotion = (elements: IChessBoardElement[][], currentPlayer
 
     return {
         modalVisible,
+        setTargetPawn,
         onPieceSelect,
     }
 }

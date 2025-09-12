@@ -1,6 +1,6 @@
 import MyCell from '../MyCell/MyCell';
 import styles from './MyBoard.module.css';
-import { type IChessBoardElement, ChessPieceTeam, type ICastleRights, ChessPieceType } from '../../interfaces';
+import { type IChessBoardElement, ChessPieceTeam, type ICastleRights } from '../../interfaces';
 import { useHighlightedElements } from '../../hooks/use-highlighted-elements';
 import { useChessClickHandler } from '../../hooks/use-chess-click-handler';
 import { useSelectedElementCoordinates } from '../../hooks/use-selected-element-coordinates';
@@ -21,7 +21,7 @@ interface MyBoardProps {
 function MyBoard({elements, selectedId, currentPlayer, isCheck, castleRights, isCheckmateState, whiteTime, blackTime, setSelectedId, handleMove}: MyBoardProps) {
     const {selectedElement, selectedElementRow, selectedElementColumn} = useSelectedElementCoordinates(elements, selectedId);
     const {highlightedElements} = useHighlightedElements(elements, selectedElement, selectedElementRow, selectedElementColumn, currentPlayer, castleRights, isCheck);
-    const {handleClick} = useChessClickHandler(elements, selectedId, currentPlayer, highlightedElements, isCheckmateState, whiteTime, blackTime, setSelectedId, handleMove);
+    const {handleClick} = useChessClickHandler(selectedId, currentPlayer, highlightedElements, isCheckmateState, whiteTime, blackTime, setSelectedId, handleMove);
     
     return (
         <div>
