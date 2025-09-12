@@ -1,7 +1,7 @@
 import { type IChessBoardElement, type IChessPieceMovement, ChessPieceTeam } from "../interfaces";
 
 
-export const useChessClickHandler = (selectedId: string | null, currentPlayer: ChessPieceTeam, highlightedElements: IChessPieceMovement[], isCheckmateState: boolean, whiteTime: number, blackTime: number, setSelectedId: (id: string | null) => void, handleMove: (fromId: string, toId: string) => void) => {
+export const useChessClickHandler = (elements: IChessBoardElement[][], selectedId: string | null, currentPlayer: ChessPieceTeam, highlightedElements: IChessPieceMovement[], isCheckmateState: boolean, whiteTime: number, blackTime: number, setSelectedId: (id: string | null) => void, handleMove: (fromId: string, toId: string) => void) => {        
     const handleClick = (element: IChessBoardElement) => {
         if (isCheckmateState) {
             return;

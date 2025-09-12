@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { type IChessBoardElement, ChessPieceTeam, type ICastleRights } from "../interfaces";
+import { usePawnPromotion } from "./use-pawn-promotion";
+import { useGameTime } from "./use-game-time";
+import { type IChessBoardElement, ChessPieceTeam, type ICastleRights, type IPawnPromotion } from "../interfaces";
 import { initialElements } from "../utils/initial-elements";
 import { isValidMoveForChecks } from "../utils/game-rules/move-validation/is-valid-move-for-checks";
 import { movePiece } from "../utils/game-rules/move-piece";
@@ -7,7 +9,8 @@ import { isKingChecked } from "../utils/game-rules/is-king-checked";
 import { fillChessBoard } from "../utils/fill-chess-board";
 import { isCheckmate } from "../utils/checkmate-logic/is-checkmate";
 import { initialCastleMovements } from "../models/initial-castle-movements";
-import { useGameTime } from "./use-game-time";
+import { isPawnToBePromoted } from "../utils/game-rules/pawn-promotion/is-pawn-to-be-promoted";
+
 
 export const useChessGame = () => {
     const [elements, setElements] = useState<IChessBoardElement[][]>(initialElements);
@@ -19,11 +22,16 @@ export const useChessGame = () => {
         white: initialCastleMovements,
         black: initialCastleMovements
     });
+    const [targetPawn, setTargetPawn] = useState<IPawnPromotion | null>(null);
     const {whiteTime, blackTime, resetTime} = useGameTime(currentPlayer, isCheckmateState);
-
+    const {modalVisible, onPieceSelect} = usePawnPromotion(elements, currentPlayer, targetPawn, setElements, setTargetPawn, setSelectedId, setCurrentPlayer);
 
     const handleMove = (fromId: string, toId: string) => {
         if (isValidMoveForChecks(elements, currentPlayer, fromId, toId)) {
+            if (isPawnToBePromoted(elements, currentPlayer, fromId, toId)) {
+                setTargetPawn({fromId, toId});
+                return;
+            } 
             movePiece(fromId, toId, setElements, setCastleRights, currentPlayer);
             setSelectedId(null);
             setCurrentPlayer(currentPlayer === ChessPieceTeam.WHITE ? ChessPieceTeam.BLACK : ChessPieceTeam.WHITE);
@@ -43,6 +51,7 @@ export const useChessGame = () => {
             white: initialCastleMovements,
             black: initialCastleMovements
         });
+        setTargetPawn(null);
     }
 
     useEffect(() => {
@@ -67,6 +76,8 @@ export const useChessGame = () => {
         isCheckmateState,
         whiteTime,
         blackTime,
+        modalVisible,
+        onPieceSelect,
         setSelectedId,
         handleMove,
         resetGame,

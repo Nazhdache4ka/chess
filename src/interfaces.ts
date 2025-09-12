@@ -41,3 +41,8 @@ export interface ICastleRights {
     white: PieceMovementState;
     black: PieceMovementState;
 }
+
+export interface IPawnPromotion {
+    fromId: string;
+    toId: string;
+}
