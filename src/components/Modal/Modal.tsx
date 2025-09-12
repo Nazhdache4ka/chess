@@ -16,10 +16,10 @@ function Modal({modalVisible, onPieceSelect}: ModalProps) {
     return (
         <div className={rootClasses.join(' ')} >
             <div className={styles.myModalContent} onClick={(e) => e.stopPropagation()}>
-                <button onClick={() => onPieceSelect(ChessPieceType.QUEEN)}>Queen</button>
-                <button onClick={() => onPieceSelect(ChessPieceType.ROOK)}>Rook</button>
-                <button onClick={() => onPieceSelect(ChessPieceType.BISHOP)}>Bishop</button>
-                <button onClick={() => onPieceSelect(ChessPieceType.KNIGHT)}>Knight</button>
+                <button className={styles.button} onClick={() => onPieceSelect(ChessPieceType.QUEEN)}>Queen</button>
+                <button className={styles.button} onClick={() => onPieceSelect(ChessPieceType.ROOK)}>Rook</button>
+                <button className={styles.button} onClick={() => onPieceSelect(ChessPieceType.BISHOP)}>Bishop</button>
+                <button className={styles.button} onClick={() => onPieceSelect(ChessPieceType.KNIGHT)}>Knight</button>
             </div>
         </div>
     )
