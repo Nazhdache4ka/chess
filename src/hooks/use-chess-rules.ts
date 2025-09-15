@@ -28,7 +28,7 @@ export const useChessRules = (elements: IChessBoardElement[][], currentPlayer: C
         } else {
             setIsCheckmateState(false);
         }
-    }, [elements, currentPlayer])
+    }, [elements, currentPlayer, isCheck])
 
     return {
         isCheck,
