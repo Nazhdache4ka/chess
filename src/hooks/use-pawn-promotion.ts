@@ -6,6 +6,11 @@ export const usePawnPromotion = (elements: IChessBoardElement[][], currentPlayer
     const [modalVisible, setModalVisible] = useState(false);
     const [targetPawn, setTargetPawn] = useState<IPawnPromotion | null>(null);
 
+    const resetPawnPromotion = () => {
+        setModalVisible(false);
+        setTargetPawn(null);
+    }
+
     const onPieceSelect = (piece: ChessPieceType) => {
         if (targetPawn && piece) {
             promotePawn(elements, currentPlayer, targetPawn, piece, setElements, setSelectedId, setCurrentPlayer);
@@ -23,6 +28,7 @@ export const usePawnPromotion = (elements: IChessBoardElement[][], currentPlayer
     return {
         modalVisible,
         setTargetPawn,
+        resetPawnPromotion,
         onPieceSelect,
     }
 }

@@ -7,14 +7,12 @@ interface ModalProps {
 }
 
 function Modal({modalVisible, onPieceSelect}: ModalProps) {
-    const rootClasses = [styles.myModal];
-
-    if (modalVisible) {
-        rootClasses.push(styles.active);
+    if (!modalVisible) {
+        return null;
     }
 
     return (
-        <div className={rootClasses.join(' ')} >
+        <div className={styles.myModal + ' ' + styles.active} >
             <div className={styles.myModalContent} onClick={(e) => e.stopPropagation()}>
                 <button className={styles.button} onClick={() => onPieceSelect(ChessPieceType.QUEEN)}>Queen</button>
                 <button className={styles.button} onClick={() => onPieceSelect(ChessPieceType.ROOK)}>Rook</button>
