@@ -9,8 +9,13 @@ interface LottieComponentProps {
 }
 
 export const LottieComponent = memo(function LottieComponent({onComplete, isShow}: LottieComponentProps) {
+    // too much renders, mb useRef??? -> (prevProps, nextProps) => {....} solved issue
+    
     const handleComplete = useCallback(() => {
         onComplete();
     }, [onComplete]);
+
     return isShow ? <Lottie animationData={animationData} onComplete={handleComplete} loop={false} className={styles.lottie}/> : null;
+}, (prevProps, nextProps) => {
+    return prevProps.isShow === nextProps.isShow;
 });

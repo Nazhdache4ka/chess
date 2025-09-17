@@ -11,6 +11,8 @@ function Modal({modalVisible, onPieceSelect}: ModalProps) {
         return null;
     }
 
+    console.log('Modal render 2'); 
+
     return (
         <div className={styles.myModal + ' ' + styles.active} >
             <div className={styles.myModalContent} onClick={(e) => e.stopPropagation()}>
