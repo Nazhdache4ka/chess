@@ -22,3 +22,13 @@
     color: red;
     margin: 10px 0;
 }
+
+.gamePause { 
+    color: red;
+    font-style: italic;
+} 
+
+.gameStart {
+    color: green;
+    font-style: italic;
+}
