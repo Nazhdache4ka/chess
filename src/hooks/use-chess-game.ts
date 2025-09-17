@@ -3,6 +3,9 @@ import { useGameTime } from "./use-game-time";
 import { useDefaultState } from "./use-default-state";
 import { useChessRules } from "./use-chess-rules";
 import { useMoveHandler } from "./use-move-handler";
+import { GamePhaseContext } from "../context/game-phase-provider";
+import { useContext } from "react";
+import { GamePhase } from "../context/context-interfaces";
 
 
 export const useChessGame = () => {
@@ -11,12 +14,14 @@ export const useChessGame = () => {
     const {whiteTime, blackTime, resetTime} = useGameTime(currentPlayer, isCheckmateState);
     const {modalVisible, setTargetPawn, onPieceSelect, resetPawnPromotion} = usePawnPromotion(elements, currentPlayer, setElements, setSelectedId, setCurrentPlayer);
     const {handleMove} = useMoveHandler(elements, currentPlayer, setElements, setCastleRights, setSelectedId, setCurrentPlayer, setTargetPawn);
+    const {setCurrentPhase} = useContext(GamePhaseContext);
 
     const resetGame = () => {
         resetDefaultState();
         resetChessRules();
         resetTime();
         resetPawnPromotion();
+        setCurrentPhase(GamePhase.START);
     }
 
     return {

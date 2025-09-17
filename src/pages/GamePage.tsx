@@ -1,19 +1,31 @@
-import Button from "../components/Button/Button";
+import ButtonContainer from "../components/Button/ButtonContainer/ButtonContainer";
 import MyBoard from "../components/MyBoard/MyBoard";
 import GameInfo from "../components/GameInfo/GameInfo";
 import Modal from "../components/Modal/Modal";
 import { useChessGame } from "../hooks/use-chess-game";
+import { GamePhaseContext } from "../context/game-phase-provider";
+import { useContext, useState } from "react";
+import { GamePhase } from "../context/context-interfaces";
+import { LottieComponent } from "../components/Lottie/Lottie";
 
 function GamePage() {
+    const [isShowLottie, setIsShowLottie] = useState(false);
+    const { setCurrentPhase } = useContext(GamePhaseContext);
     const {whiteTime, blackTime, resetGame, currentPlayer, isCheckmateState, isCheck, elements, selectedId, castleRights, modalVisible, setSelectedId, handleMove, onPieceSelect} = useChessGame();
+
+    const handleLottieStart = () => {
+        setIsShowLottie(true);
+    }
+
+    const handleLottieComplete = () => {
+        setCurrentPhase(GamePhase.ONGOING);
+        setIsShowLottie(false);
+    }
 
     return (
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '100px'}}>
-            <Button 
-                onClick={resetGame}
-            >
-                Reset
-            </Button>
+            <LottieComponent onComplete={handleLottieComplete} isShow={isShowLottie}/>
+            <ButtonContainer resetGame={resetGame} handleLottieStart={handleLottieStart}/>
             <Modal modalVisible={modalVisible} onPieceSelect={onPieceSelect}/>
             <MyBoard 
                 elements={elements}

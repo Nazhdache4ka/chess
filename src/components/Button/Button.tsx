@@ -1,20 +1,18 @@
+import styles from './Button.module.css';
+
 interface ButtonProps {
     children: React.ReactNode;
     onClick: () => void;
+    disabled?: boolean;
 }
 
-function Button({children, onClick}: ButtonProps) {
+function Button({children, onClick, disabled}: ButtonProps) {
     return (
         <div>
             <button 
-            onClick={onClick}
-            style = {{
-                backgroundColor: 'red',
-                color: 'white',
-                border: '1px solid white',
-                padding: '10px',
-                borderRadius: '5px',
-            }}
+                onClick={onClick}
+                className={styles.button}
+                disabled={disabled}
             >
                 {children}
             </button>

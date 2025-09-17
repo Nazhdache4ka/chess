@@ -1,9 +1,13 @@
 import { type IChessBoardElement, type IChessPieceMovement, ChessPieceTeam } from "../interfaces";
+import { useContext } from "react";
+import { GamePhaseContext } from "../context/game-phase-provider";
+import { GamePhase } from "../context/context-interfaces";
 
 
-export const useChessClickHandler = (selectedId: string | null, currentPlayer: ChessPieceTeam, highlightedElements: IChessPieceMovement[], isCheckmateState: boolean, whiteTime: number, blackTime: number, setSelectedId: (id: string | null) => void, handleMove: (fromId: string, toId: string) => void) => {        
+export const useChessClickHandler = (selectedId: string | null, currentPlayer: ChessPieceTeam, highlightedElements: IChessPieceMovement[], isCheckmateState: boolean, whiteTime: number, blackTime: number, setSelectedId: (id: string | null) => void, handleMove: (fromId: string, toId: string) => void) => {
+    const {currentPhase} = useContext(GamePhaseContext);
     const handleClick = (element: IChessBoardElement) => {
-        if (isCheckmateState) {
+        if (isCheckmateState || currentPhase !== GamePhase.ONGOING) {
             return;
         }
         if (whiteTime === 0 || blackTime === 0) {
