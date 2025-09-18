@@ -3,5 +3,11 @@
     height: 200px;
     width: 200px;
     left: 2vw;
-    top: 7vh;
+    top: 10vh;
+    transition: all 0.3s ease-in-out;
+}
+
+.lottieBulldog:hover {
+    cursor: pointer;
+    transform: scale(1.05);
 }
