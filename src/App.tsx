@@ -18,7 +18,7 @@ function App() {
                 <Route path="*" element={<DefaultPage />} />
             </Routes>
           </GamePhaseProvider>
-        </BrowserRouter>
+      </BrowserRouter>
     </div>
   )
 }

@@ -1,8 +1,9 @@
 import { ChessPieceTeam, ChessPieceType, type ICastleRights, type IChessBoardElement } from "../../../interfaces";
+import { getIdCoordinates } from "../../../utils/getIdCoordinates";
 
 export const performCastle = (newElements: IChessBoardElement[][], setCastleRights: React.Dispatch<React.SetStateAction<ICastleRights>>, currentPlayer: ChessPieceTeam, fromRow: number, fromColumn: number, sideRookId: string) => {
-    const rookRow = parseInt(sideRookId.split('-')[0]);
-    const rookColumn = parseInt(sideRookId.split('-')[1]);
+    const rookRow = getIdCoordinates(sideRookId).row;
+    const rookColumn = getIdCoordinates(sideRookId).column;
     
     if (currentPlayer === ChessPieceTeam.WHITE) {
 

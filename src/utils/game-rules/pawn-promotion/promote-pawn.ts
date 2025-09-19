@@ -1,4 +1,5 @@
 import { type IChessBoardElement, type IPawnPromotion, ChessPieceTeam, ChessPieceType } from "../../../interfaces";
+import { getIdCoordinates } from "../../../utils/getIdCoordinates";
 
 export const promotePawn = (elements: IChessBoardElement[][], currentPlayer: ChessPieceTeam, targetPawn: IPawnPromotion | null, selectedPiece: ChessPieceType | null, setElements: (elements: IChessBoardElement[][]) => void, setSelectedId: (selectedId: string | null) => void, setCurrentPlayer: (currentPlayer: ChessPieceTeam) => void) => {
     console.log('promoting pawn');
@@ -13,27 +14,25 @@ export const promotePawn = (elements: IChessBoardElement[][], currentPlayer: Che
         return;
     }
 
-    const fromRow = parseInt(targetPawn.fromId.split('-')[0]);
-    const fromColumn = parseInt(targetPawn.fromId.split('-')[1]);
-    const toRow = parseInt(targetPawn.toId.split('-')[0]);
-    const toColumn = parseInt(targetPawn.toId.split('-')[1]);
+    const fromCoordinates = getIdCoordinates(targetPawn.fromId);
+    const toCoordinates = getIdCoordinates(targetPawn.toId);
 
     const newElements = elements.map((row: IChessBoardElement[]) => row.map((element: IChessBoardElement) => 
         ({...element})
     ));
 
     if (currentPlayer === ChessPieceTeam.WHITE) {
-        newElements[toRow][toColumn].value = {
+        newElements[toCoordinates.row][toCoordinates.column].value = {
             type: selectedPiece,
             team: ChessPieceTeam.WHITE,
         };
-        newElements[fromRow][fromColumn].value = null;
+        newElements[fromCoordinates.row][fromCoordinates.column].value = null;
     } else {
-        newElements[toRow][toColumn].value = {
+        newElements[toCoordinates.row][toCoordinates.column].value = {
             type: selectedPiece,
             team: ChessPieceTeam.BLACK,
         };
-        newElements[fromRow][fromColumn].value = null;
+        newElements[fromCoordinates.row][fromCoordinates.column].value = null;
     }
 
     setSelectedId(null);

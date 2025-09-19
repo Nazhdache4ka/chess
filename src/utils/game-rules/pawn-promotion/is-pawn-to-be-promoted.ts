@@ -1,23 +1,25 @@
 import { type IChessBoardElement, ChessPieceTeam, ChessPieceType } from "../../../interfaces";
+import { getIdCoordinates } from "../../../utils/getIdCoordinates";
 
 export const isPawnToBePromoted = (elements: IChessBoardElement[][], currentPlayer: ChessPieceTeam, fromId: string, toId: string) => {
-    const fromRow = parseInt(fromId.split('-')[0]);
-    const fromColumn = parseInt(fromId.split('-')[1]);
-    const toRow = parseInt(toId.split('-')[0]);
+    const fromCoordinates = getIdCoordinates(fromId);
+    const toCoordinates = getIdCoordinates(toId);
 
-    if (elements[fromRow][fromColumn].value?.type !== ChessPieceType.PAWN) {
+    const elementToBePromoted = elements[fromCoordinates.row][fromCoordinates.column].value?.type;
+
+    if (elementToBePromoted !== ChessPieceType.PAWN) {
         return false;
     }
 
-    if (elements[fromRow][fromColumn].value?.type === ChessPieceType.PAWN && currentPlayer === ChessPieceTeam.WHITE) {
-        if (toRow === 0) {
+    if (elementToBePromoted === ChessPieceType.PAWN && currentPlayer === ChessPieceTeam.WHITE) {
+        if (toCoordinates.row === 0) {
             return true;
         }
         return false;
     }
     
-    if (elements[fromRow][fromColumn].value?.type === ChessPieceType.PAWN && currentPlayer === ChessPieceTeam.BLACK) {
-        if (toRow === 7) {
+    if (elementToBePromoted === ChessPieceType.PAWN && currentPlayer === ChessPieceTeam.BLACK) {
+        if (toCoordinates.row === 7) {
             return true;
         }
         return false;
