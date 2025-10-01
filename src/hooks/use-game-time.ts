@@ -4,8 +4,8 @@ import { ChessPieceTeam } from "../interfaces";
 import { GamePhase } from "../context/context-interfaces";
 
 export const useGameTime = (currentPlayer: ChessPieceTeam, isCheckmateState: boolean) => {
-    const [whiteTime, setWhiteTime] = useState<number>(60);
-    const [blackTime, setBlackTime] = useState<number>(60);
+    const [whiteTime, setWhiteTime] = useState<number>(600);
+    const [blackTime, setBlackTime] = useState<number>(600);
     const { currentPhase, setCurrentPhase } = useContext(GamePhaseContext);
     
     const resetTime = () => {
