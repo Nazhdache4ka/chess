@@ -16,7 +16,7 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
         if (selectedElement?.value.type === ChessPieceType.KING) {
 
           if (currentPlayer === ChessPieceTeam.WHITE) {
-            const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
+            const canCastleResult = canCastle(elements, castleRights, currentPlayer, isCheck);
 
             if (!canCastleResult || !canCastleResult.canCastle) {
               return highlightedElements;
@@ -40,7 +40,7 @@ export const useHighlightedElements = (elements: IChessBoardElement[][], selecte
               }
             }
           } else {
-            const canCastleResult = canCastle(elements, castleRights, currentPlayer, selectedElement.id, isCheck);
+            const canCastleResult = canCastle(elements, castleRights, currentPlayer, isCheck);
 
             if (!canCastleResult || !canCastleResult.canCastle) {
               return highlightedElements;
