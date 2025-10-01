@@ -1,6 +1,6 @@
 import { type IChessBoardElement, type ICastleRights, ChessPieceTeam } from "../../../interfaces";
 
-export const canCastle = (elements: IChessBoardElement[][], castleRights: ICastleRights, currentPlayer: ChessPieceTeam, selectedId: string | null, isCheck: boolean) => {
+export const canCastle = (elements: IChessBoardElement[][], castleRights: ICastleRights, currentPlayer: ChessPieceTeam, isCheck: boolean) => {
     let canCastle = true;
     let canCastleShortSide = true;
     let canCastleLongSide = true;

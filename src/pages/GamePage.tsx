@@ -2,11 +2,11 @@ import ButtonContainer from "../components/Button/ButtonContainer/ButtonContaine
 import MyBoard from "../components/MyBoard/MyBoard";
 import GameInfo from "../components/GameInfo/GameInfo";
 import Modal from "../components/Modal/Modal";
-import { useChessGame } from "../hooks/use-chess-game";
-import { GamePhaseContext } from "../context/game-phase-provider";
-import { useContext, useState } from "react";
-import { GamePhase } from "../context/context-interfaces";
 import { LottieComponent } from "../components/Lottie/Lottie";
+import { useChessGame } from "../hooks/use-chess-game";
+import { useContext, useState } from "react";
+import { GamePhaseContext } from "../context/game-phase-provider";
+import { GamePhase } from "../context/context-interfaces";
 
 function GamePage() {
     const [isShowLottie, setIsShowLottie] = useState(false);
