@@ -9,8 +9,8 @@ export const useGameTime = (currentPlayer: ChessPieceTeam, isCheckmateState: boo
     const { currentPhase, setCurrentPhase } = useContext(GamePhaseContext);
     
     const resetTime = () => {
-        setWhiteTime(60);
-        setBlackTime(60);
+        setWhiteTime(600);
+        setBlackTime(600);
     }
     console.log(currentPhase);
     useEffect(() => {
