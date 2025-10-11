@@ -75,11 +75,11 @@ function MyBoard({elements, selectedId, currentPlayer, isCheck, castleRights, is
         const fromId = active.id as string;
         const toId = over.id as string;
 
-        const targetPiece = elements.flat().find((element) => element.id === toId);
+        // const targetPiece = elements.flat().find((element) => element.id === toId);
 
-        if (!targetPiece) {
-            return;
-        }
+        // if (!targetPiece) {
+        //     return;
+        // }
 
         const isValid = highlightedElements.some((element) => 
             element.row === getIdCoordinates(toId).row &&
